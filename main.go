@@ -3,11 +3,13 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		res, err := fetchNameAndJoke()
+		//fetch our name and joke with 5 second limit before timeout
+		res, err := fetchNameAndJoke(5 * time.Second)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
