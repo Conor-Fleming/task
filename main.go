@@ -11,7 +11,7 @@ func main() {
 	r := chi.NewRouter()
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		res, err := startWorkers()
+		res, err := fetchNameAndJoke()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

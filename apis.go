@@ -9,7 +9,7 @@ import (
 )
 
 // NameData makes request to joke api and unmarshals the json response to our NameResponse struct
-func NameData() (*NameResponse, error) {
+func getNameData() (*NameResponse, error) {
 	//Calling Api for the random name
 	nameResp, err := http.Get("https://names.mcquay.me/api/v0/")
 	if err != nil {
@@ -37,7 +37,7 @@ func NameData() (*NameResponse, error) {
 }
 
 // JokeData makes request to joke api and unmarshals the json response to our JokeResponse struct
-func JokeData() (*JokeResponse, error) {
+func getJokeData() (*JokeResponse, error) {
 	//using url package to build string because of
 	url := url.URL{
 		Scheme:   "http",

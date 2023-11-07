@@ -1,35 +1,34 @@
-# The Task
-Create a production ready web service which combines two existing web services.
-Fetch a random name from https://names.mcquay.me/api/v0
-Fetch a random Chuck Norris joke from http://joke.loc8u.com:8888/joke?limitTo=nerdy&firstName=John&lastName=Doe
-Combine the results and return them to the user.
+# Wildfire - The Task
+The task was to create a "Production Ready" web service which utilizes two existing web services:\
+[Random name generator](https://names.mcquay.me/api/v0/)\
+[Random Chuck Norris joke generator](http://joke.loc8u.com:8888/joke?limitTo=nerdy&firstName=John&lastName=Doe)
 
-# Time Guidelines
-We recommend you spend around 2 to 4 hours on this task.
-You should aim to at least have running code which meets the basic requirements of the task.
-Production ready is a broad goal: if you’re unable to fully meet it then please include clear 
-TODO comments in your code that are sufficiently detailed that another engineer could complete 
-the task without having to do additional design thinking and the result would match your vision of production readiness.
-Please let us know how much time you spent on the task when you submit your answer.
-## Further requirements:
-The web service should be written in Go.
-Write a README.md file which (at a minimum) provides instructions for running the web service.
-The web service should remain responsive under load and be able to support multiple concurrent requests.
-The code, README.md and any other supporting files should be compressed into a single archive and submitted for review or a git repo link.
+Use the the results of each and return that result to the user.
 
+## Requirements
+Some of the basic requirements of this task were
+- Take 2-4 hours on the task
+- Written in Go
+- Clearly written README.md that at *Minimum* provides clear instructions on using the service
+- Service should support concurrent requests and remain responsive under load
 
-# Example
-## Fetching a name
+## Instructions for Use
+
+The easiest way for you to use this web service would be to clone this repository
 ```
-$ curl "https://names.mcquay.me/api/v0/"
-{“first_name”:“Hasina”,“last_name”:“Tanweer”}
-Fetching a joke
-$ curl "http://joke.loc8u.com:8888/joke?limitTo=nerdy&firstName=John&lastName=Doe"
-{ “type”: “success”, “value”: { “id”: 181, “joke”: “John Doe’s OSI network model has only one layer - Physical.“, “categories”: [“nerdy”] } }
+git clone https://github.com/Conor-Fleming/Wildfire-Task
 ```
 
-## Using the new web service
+From here you can simply use `$ go run main.go` and it will start the server.
+
+Once running, you can use curl to make requests to ```localhost:8080```
 ```
-$ curl "http://localhost:5000"
-Hasina Tanweer’s OSI network model has only one layer - Physical..
+$ curl localhost:8080                                                                                   
+Clive Moodie programs occupy 150% of CPU, even when they are not executing.
 ```
+
+Alternatively once the server has been started you can navigate to (http://localhost:8080/) and use refresh for new content.
+
+## Testing
+To test this program I created a simple client that used a wait group and go routine that sent off 1000 requests to the service at the same time. 
+This test returned all successful status codes of 200. (yay)
