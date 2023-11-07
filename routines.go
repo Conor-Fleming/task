@@ -24,7 +24,6 @@ func fetchNameAndJoke(timeout time.Duration) (string, error) {
 		timer := time.AfterFunc(timeout, func() {
 			errChan <- errors.New("name api call timed out")
 		})
-		defer timer.Stop()
 		nameData, err := getNameData()
 		if err != nil {
 			errChan <- err
@@ -39,7 +38,6 @@ func fetchNameAndJoke(timeout time.Duration) (string, error) {
 		timer := time.AfterFunc(timeout, func() {
 			errChan <- errors.New("joke api timed out")
 		})
-		defer timer.Stop()
 		jokeData, err := getJokeData()
 		if err != nil {
 			errChan <- err
@@ -55,9 +53,7 @@ func fetchNameAndJoke(timeout time.Duration) (string, error) {
 
 	//checking for errors from go routines
 	for err := range errChan {
-		if err != nil {
-			return "", err
-		}
+		return "", err
 	}
 
 	// ensuring name or joke values are not empty
@@ -68,5 +64,6 @@ func fetchNameAndJoke(timeout time.Duration) (string, error) {
 	// Replace name values in Joke with values from Name API
 	joke.Value.Joke = strings.ReplaceAll(joke.Value.Joke, "*first", name.FirstName)
 	joke.Value.Joke = strings.ReplaceAll(joke.Value.Joke, "*last", name.LastName)
+
 	return joke.Value.Joke, nil
 }
