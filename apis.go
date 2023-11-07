@@ -38,7 +38,7 @@ func getNameData() (*NameResponse, error) {
 
 // JokeData makes request to joke api and unmarshals the json response to our JokeResponse struct
 func getJokeData() (*JokeResponse, error) {
-	//using url package to build string because of
+	//building url with url package
 	url := url.URL{
 		Scheme:   "http",
 		Host:     "joke.loc8u.com:8888",
