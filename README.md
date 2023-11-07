@@ -21,7 +21,7 @@ git clone https://github.com/Conor-Fleming/Wildfire-Task
 
 From here you can simply use `$ go run main.go` and it will start the server.
 
-Once running, you can use curl to make requests to ```localhost:8080```
+Once running, in another terminal you can use curl to make requests to ```localhost:8080```
 ```
 $ curl localhost:8080                                                                                   
 Clive Moodie programs occupy 150% of CPU, even when they are not executing.
@@ -32,3 +32,7 @@ Alternatively once the server has been started you can navigate to (http://local
 ## Testing
 To test this program I created a simple client that used a wait group and go routine that sent off 1000 requests to the service at the same time. 
 This test returned all successful status codes of 200. (yay)
+The timeout mechanism was tested with simple sleep statements in the go routines
+
+## Next steps
+Provided more time, I would have liked to create a set of unit tests that could be run against the code
