@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"strings"
 	"sync"
 )
@@ -11,37 +12,48 @@ func fetchNameAndJoke() (string, error) {
 
 	var name *NameResponse
 	var joke *JokeResponse
-	var err error
-	errChan := make(chan error)
+	//creating channel for errors with buffer of 2
+	errChan := make(chan error, 2)
 
 	//spinning go routines for the requests
 	//populating errChan in case of errors
 	go func() {
-		name, err = getNameData()
+		defer wg.Done()
+		nameData, err := getNameData()
 		if err != nil {
 			errChan <- err
 			return
 		}
-		wg.Done()
+
+		name = nameData
 	}()
+
 	go func() {
-		joke, err = getJokeData()
+		defer wg.Done()
+		jokeData, err := getJokeData()
 		if err != nil {
 			errChan <- err
 			return
 		}
-		wg.Done()
+
+		joke = jokeData
 	}()
+	//waiting for go routines to complete and closing channel
 	wg.Wait()
+	close(errChan)
 
 	//checking for errors from go routines
-	select {
-	case e := <-errChan:
-		return "", e
-	default:
+	for err := range errChan {
+		if err != nil {
+			return "", err
+		}
 	}
 
 	// Replace name values in Joke with values from Name API
+	if name == nil || joke == nil {
+		return "", errors.New("failed to fetch data from apis")
+	}
+
 	joke.Value.Joke = strings.ReplaceAll(joke.Value.Joke, "*first", name.FirstName)
 	joke.Value.Joke = strings.ReplaceAll(joke.Value.Joke, "*last", name.LastName)
 	return joke.Value.Joke, nil
