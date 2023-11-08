@@ -19,7 +19,7 @@ The easiest way for you to use this web service would be to clone this repositor
 git clone https://github.com/Conor-Fleming/Wildfire-Task
 ```
 
-From here you can simply use `$ go run main.go` and it will start the server.
+From here you can simply use `$ go run .` and it will start the server.
 
 Once running, in another terminal you can use curl to make requests to ```localhost:8080```
 ```
