@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	//TODO: rate limiter
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		//fetch our name and joke with 5 second limit before timeout
 		res, err := fetchNameAndJoke(5 * time.Second)
